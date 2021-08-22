@@ -1,4 +1,4 @@
-package java.unisinos.teoriainformacao.compressao.strategy;
+package unisinos.teoriainformacao.compressao.strategy;
 
 import java.util.Arrays;
 

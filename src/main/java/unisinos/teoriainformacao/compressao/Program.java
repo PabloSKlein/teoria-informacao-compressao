@@ -1,10 +1,12 @@
-package java.unisinos.teoriainformacao.compressao;
+package unisinos.teoriainformacao.compressao;
 
-import java.unisinos.teoriainformacao.compressao.file.Message;
-import java.unisinos.teoriainformacao.compressao.strategy.EncoderStrategy;
+import unisinos.teoriainformacao.compressao.file.Message;
+import unisinos.teoriainformacao.compressao.strategy.EncoderStrategy;
+
+import java.util.List;
 import java.util.Optional;
 
-import static java.unisinos.teoriainformacao.compressao.file.FileReader.readFile;
+import static unisinos.teoriainformacao.compressao.file.FileReader.readFile;
 
 public class Program {
     public static void main(String[] args) {
@@ -14,7 +16,7 @@ public class Program {
                 .orElseThrow(() -> new RuntimeException("Parâmtros inválidos"));
     }
 
-    private static Optional<byte[]> encodeByStrategy(Message message) {
+    private static Optional<List<Byte>> encodeByStrategy(Message message) {
         return EncoderStrategy.getEncoder(message.getEncoderKey())
                 .map(encoder -> encoder.encode(message));
     }

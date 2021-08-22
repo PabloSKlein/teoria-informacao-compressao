@@ -1,4 +1,4 @@
-package java.unisinos.teoriainformacao.compressao.file;
+package unisinos.teoriainformacao.compressao.file;
 
 import java.util.Optional;
 
