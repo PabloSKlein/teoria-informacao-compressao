@@ -2,15 +2,18 @@ package unisinos.teoriainformacao.compressao.strategy;
 
 import unisinos.teoriainformacao.compressao.file.Message;
 
-import java.math.BigInteger;
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
 import static unisinos.teoriainformacao.compressao.strategy.EncoderEnum.GOLOMB;
+import static unisinos.teoriainformacao.compressao.util.BinaryUtil.parseToString;
+import static unisinos.teoriainformacao.compressao.util.BinaryUtil.toBinaryCharArray;
+import static unisinos.teoriainformacao.compressao.util.MathUtil.log2;
+import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
 
 public class Golomb implements Encoder {
 
@@ -18,23 +21,42 @@ public class Golomb implements Encoder {
 
     @Override
     public List<Byte> encode(Message message) {
-        return toObjectStream(message.getText().getBytes(US_ASCII))
+        return primitiveArrayToObjectStream(message.getText().getBytes(US_ASCII))
                 .flatMap(it -> encode(it, message.getParam()))
                 .collect(toList());
+    }
+
+    public String encodeAsString(Message message) {
+        return primitiveArrayToObjectStream(message.getText().getBytes(US_ASCII))
+                .map(it -> encodeAsString(it, message.getParam()))
+                .collect(joining());
+    }
+
+    @Override
+    public EncoderEnum getEncoder() {
+        return GOLOMB;
     }
 
     private Stream<Byte> encode(Byte toEncode, int divisor) {
         var prefix = getPrefix(toEncode, divisor);
         var binaryMod = getBinaryMod(toEncode, divisor);
 
-        return concat(toObjectStream(prefix), toObjectStream(binaryMod));
+        return concat(primitiveArrayToObjectStream(prefix), primitiveArrayToObjectStream(binaryMod));
     }
 
-    //TODO Não está funcionando, preciso conseguir um byte array com os binários que representam o valor em int que recebo por parâmetro.
-    private byte[] getBinaryMod(Byte toEncode, int divisor) {
-        var formatedBytes = new byte[divisor];
-        var binaryModBytes = BigInteger.valueOf(toEncode.intValue() % divisor).toByteArray();
+    private String encodeAsString(Byte toEncode, int divisor) {
+        var prefix = parseToString(getPrefix(toEncode, divisor));
+        var binaryMod = parseToString(getBinaryMod(toEncode, divisor));
 
+        return prefix + binaryMod;
+    }
+
+    private byte[] getBinaryMod(Byte toEncode, int divisor) {
+        int modSize = log2(divisor);
+        var formatedBytes = new byte[modSize];
+        var binaryModBytes = toBinaryCharArray(toEncode.intValue() % divisor);
+
+        //TODO verificar se não é melhor só ir botando zero na frente
         if (formatedBytes.length != binaryModBytes.length) {
             for (int i = 0; i < binaryModBytes.length; i++) {
                 formatedBytes[formatedBytes.length - (i + 1)] = binaryModBytes[i];
@@ -53,14 +75,4 @@ public class Golomb implements Encoder {
         return bytes;
     }
 
-
-    @Override
-    public EncoderEnum getEncoder() {
-        return GOLOMB;
-    }
-
-    private Stream<Byte> toObjectStream(byte[] bytes) {
-        return IntStream.range(0, bytes.length)
-                .mapToObj(i -> bytes[i]);
-    }
 }
