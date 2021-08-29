@@ -1,10 +1,8 @@
 package unisinos.teoriainformacao.compressao.strategy;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static unisinos.teoriainformacao.compressao.util.MessageFactory.build;
 
 public class GolombTest {
