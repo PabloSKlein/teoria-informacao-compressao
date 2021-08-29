@@ -21,10 +21,10 @@ public enum EncoderEnum {
             return new Golomb();
         }
     },
-    UNARIA(4) {
+    UNARY(4) {
         @Override
         public Encoder getEncoderInstance() {
-            return new Unario();
+            return new Unary();
         }
     },
     DELTA(5) {

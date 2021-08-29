@@ -1,55 +1,37 @@
 package unisinos.teoriainformacao.compressao.strategy;
 
 import unisinos.teoriainformacao.compressao.file.Message;
-import unisinos.teoriainformacao.compressao.util.PrimitiveUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class Unario implements Encoder {
+import static java.util.stream.Collectors.toList;
+import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
+
+public class Unary implements Encoder {
+
+    @Override
+    public List<Boolean> encodeBool(Message message) {
+        var bytes = message.getText().getBytes(StandardCharsets.US_ASCII);
+        return primitiveArrayToObjectStream(bytes)
+                .flatMap(this::encodeByte)
+                .collect(toList());
+    }
 
     @Override
     public List<Byte> encode(Message message) {
-        var bytes = message.getText().getBytes(StandardCharsets.US_ASCII);
-        var output = "";
+        return null;
+    }
 
-        byte[] bytesNovo = new byte[bytes[0] + 1];
-        bytesNovo[bytesNovo.length - 1] = 1;
-
-        for (var b : bytes) {
-            output += new String();
-        }
-
-
-        return PrimitiveUtil.primitiveArrayToObjectStream(bytes).collect(Collectors.toList());
+    private Stream<Boolean> encodeByte(Byte toEncode) {
+        var encodedBits = new boolean[toEncode + 1];
+        encodedBits[encodedBits.length - 1] = true;
+        return primitiveArrayToObjectStream(encodedBits);
     }
 
     @Override
     public EncoderEnum getEncoderDecoder() {
-        return EncoderEnum.UNARIA;
+        return EncoderEnum.UNARY;
     }
-
-    /*
-
-
-        IntStream.range(0, bytes[0])
-                .map()
-
-        byte[] saida = {};
-        byte[] temp = null;
-        int n = bytes[0];
-        int i;
-        for (int j = 0; j < bytes.length; j++) {
-            n = bytes[j];
-            temp = new byte[n + 1];
-            i = 0;
-            while (i < n)
-            {
-                temp[i] = '0';
-                i++;
-            }
-            temp[n] = '1';
-        }
-     */
 }

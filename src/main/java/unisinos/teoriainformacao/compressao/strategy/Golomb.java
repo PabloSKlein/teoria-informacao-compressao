@@ -27,6 +27,11 @@ public class Golomb implements Encoder, Decoder {
     }
 
     @Override
+    public List<Boolean> encodeBool(Message message) {
+        return null;
+    }
+
+    @Override
     public List<Byte> decode(Message message) {
         return null;
     }

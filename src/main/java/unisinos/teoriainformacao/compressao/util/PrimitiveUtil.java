@@ -13,4 +13,9 @@ public class PrimitiveUtil {
         return IntStream.range(0, chars.length)
                 .mapToObj(i -> chars[i]);
     }
+
+    public static Stream<Boolean> primitiveArrayToObjectStream(boolean[] chars) {
+        return IntStream.range(0, chars.length)
+                .mapToObj(i -> chars[i]);
+    }
 }
