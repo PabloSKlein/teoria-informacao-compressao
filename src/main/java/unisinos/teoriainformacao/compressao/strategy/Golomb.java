@@ -15,7 +15,7 @@ import static unisinos.teoriainformacao.compressao.util.BinaryUtil.toBinaryCharA
 import static unisinos.teoriainformacao.compressao.util.MathUtil.log2;
 import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
 
-public class Golomb implements Encoder {
+public class Golomb implements EncoderDecoder {
 
     private static final byte BIT_STOP = 1;
 
@@ -26,6 +26,11 @@ public class Golomb implements Encoder {
                 .collect(toList());
     }
 
+    @Override
+    public List<Byte> decode(Message message) {
+        return null;
+    }
+
     public String encodeAsString(Message message) {
         return primitiveArrayToObjectStream(message.getText().getBytes(US_ASCII))
                 .map(it -> encodeAsString(it, message.getParam()))
@@ -33,7 +38,7 @@ public class Golomb implements Encoder {
     }
 
     @Override
-    public EncoderEnum getEncoder() {
+    public EncoderEnum getEncoderDecoder() {
         return GOLOMB;
     }
 

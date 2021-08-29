@@ -4,8 +4,10 @@ import unisinos.teoriainformacao.compressao.file.Message;
 
 import java.util.List;
 
-public interface Encoder {
+public interface EncoderDecoder {
     List<Byte> encode(Message message);
 
-    EncoderEnum getEncoder();
+    List<Byte> decode(Message message);
+
+    EncoderEnum getEncoderDecoder();
 }
