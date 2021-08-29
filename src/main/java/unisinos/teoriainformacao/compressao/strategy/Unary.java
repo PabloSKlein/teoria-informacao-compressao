@@ -12,6 +12,29 @@ public class Unario implements Encoder {
     @Override
     public List<Byte> encode(Message message) {
         var bytes = message.getText().getBytes(StandardCharsets.US_ASCII);
+        var output = "";
+
+        byte[] bytesNovo = new byte[bytes[0] + 1];
+        bytesNovo[bytesNovo.length - 1] = 1;
+
+        for (var b : bytes) {
+            output += new String();
+        }
+
+
+        return PrimitiveUtil.primitiveArrayToObjectStream(bytes).collect(Collectors.toList());
+    }
+
+    @Override
+    public EncoderEnum getEncoderDecoder() {
+        return EncoderEnum.UNARIA;
+    }
+
+    /*
+
+
+        IntStream.range(0, bytes[0])
+                .map()
 
         byte[] saida = {};
         byte[] temp = null;
@@ -28,12 +51,5 @@ public class Unario implements Encoder {
             }
             temp[n] = '1';
         }
-
-        return PrimitiveUtil.primitiveArrayToObjectStream(bytes).collect(Collectors.toList());
-    }
-
-    @Override
-    public EncoderEnum getEncoderDecoder() {
-        return EncoderEnum.UNARIA;
-    }
+     */
 }
