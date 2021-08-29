@@ -3,6 +3,7 @@ package unisinos.teoriainformacao.compressao;
 import unisinos.teoriainformacao.compressao.file.FileWriter;
 import unisinos.teoriainformacao.compressao.file.Message;
 import unisinos.teoriainformacao.compressao.strategy.EncoderStrategy;
+import unisinos.teoriainformacao.compressao.strategy.Unario;
 
 import java.util.List;
 import java.util.Optional;

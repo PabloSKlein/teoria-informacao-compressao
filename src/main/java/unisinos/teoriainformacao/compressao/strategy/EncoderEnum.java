@@ -5,31 +5,31 @@ import java.util.Arrays;
 public enum EncoderEnum {
     GOLOMB(1) {
         @Override
-        public EncoderDecoder getEncoderInstance() {
+        public Encoder getEncoderInstance() {
             return new Golomb();
         }
     },
     ELIAS_GAMMA(2) {
         @Override
-        public EncoderDecoder getEncoderInstance() {
+        public Encoder getEncoderInstance() {
             return new Golomb();
         }
     },
     FIBONACCI(3) {
         @Override
-        public EncoderDecoder getEncoderInstance() {
+        public Encoder getEncoderInstance() {
             return new Golomb();
         }
     },
     UNARIA(4) {
         @Override
-        public EncoderDecoder getEncoderInstance() {
-            return new Golomb();
+        public Encoder getEncoderInstance() {
+            return new Unario();
         }
     },
     DELTA(5) {
         @Override
-        public EncoderDecoder getEncoderInstance() {
+        public Encoder getEncoderInstance() {
             return new Golomb();
         }
     };
@@ -47,6 +47,6 @@ public enum EncoderEnum {
                 .orElseThrow(() -> new RuntimeException("Chave do encoder inválida"));
     }
 
-    public abstract EncoderDecoder getEncoderInstance();
+    public abstract Encoder getEncoderInstance();
 
 }

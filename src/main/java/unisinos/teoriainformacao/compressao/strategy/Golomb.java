@@ -15,7 +15,7 @@ import static unisinos.teoriainformacao.compressao.util.BinaryUtil.toBinaryCharA
 import static unisinos.teoriainformacao.compressao.util.MathUtil.log2;
 import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
 
-public class Golomb implements EncoderDecoder {
+public class Golomb implements Encoder, Decoder {
 
     private static final byte BIT_STOP = 1;
 
