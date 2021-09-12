@@ -1,10 +1,26 @@
 package unisinos.teoriainformacao.compressao.file;
 
-import java.util.List;
+import java.io.File;
+import java.io.FileOutputStream;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class FileWriter {
-    //Talvez receber uma string
-    public static void writeLine(List<Byte> bytes) {
+    public static void writeLine(String toWrite) {
+        var outputFile = new File("encodedFile.txt");
+        createIfDoesntExists(outputFile);
+        try (var outputStream = new FileOutputStream(outputFile, false)) {
+            outputStream.write(toWrite.getBytes(UTF_8));
+        } catch (Exception e) {
+            System.out.println("Deu ruim!");
+        }
+    }
 
+    private static void createIfDoesntExists(File outputFile) {
+        try {
+            outputFile.createNewFile();
+        } catch (Exception e) {
+            System.out.println("Arquivo já existe");
+        }
     }
 }

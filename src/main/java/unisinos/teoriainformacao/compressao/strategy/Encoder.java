@@ -5,7 +5,7 @@ import unisinos.teoriainformacao.compressao.file.Message;
 import java.util.List;
 
 public interface Encoder {
-    List<Byte> encode(Message message);
+    String encodeAsString(Message message);
     List<Boolean> encodeBool(Message message);
 
     EncoderEnum getEncoderDecoder();

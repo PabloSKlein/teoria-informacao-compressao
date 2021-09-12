@@ -19,8 +19,8 @@ public class Program {
                 .forEach(FileWriter::writeLine);
     }
 
-    private static Optional<List<Byte>> encodeByStrategy(Message message) {
+    private static Optional<String> encodeByStrategy(Message message) {
         return EncoderStrategy.getEncoder(message.getEncoderKey())
-                .map(encoder -> encoder.encode(message));
+                .map(encoder -> encoder.encodeAsString(message));
     }
 }

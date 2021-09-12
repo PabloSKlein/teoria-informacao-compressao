@@ -5,5 +5,5 @@ import unisinos.teoriainformacao.compressao.file.Message;
 import java.util.List;
 
 public interface Decoder {
-    List<Byte> decode(Message message);
+    String decode(Message message);
 }

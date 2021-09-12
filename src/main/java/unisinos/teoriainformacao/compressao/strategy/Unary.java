@@ -12,6 +12,11 @@ import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveA
 public class Unary implements Encoder {
 
     @Override
+    public String encodeAsString(Message message) {
+        return null;
+    }
+
+    @Override
     public List<Boolean> encodeBool(Message message) {
         var bytes = message.getText().getBytes(StandardCharsets.US_ASCII);
         return primitiveArrayToObjectStream(bytes)
@@ -19,10 +24,6 @@ public class Unary implements Encoder {
                 .collect(toList());
     }
 
-    @Override
-    public List<Byte> encode(Message message) {
-        return null;
-    }
 
     private Stream<Boolean> encodeByte(Byte toEncode) {
         var encodedBits = new boolean[toEncode + 1];
