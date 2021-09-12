@@ -1,9 +1,12 @@
-package java.unisinos.teoriainformacao.compressao.strategy;
+package unisinos.teoriainformacao.compressao.strategy;
 
-import java.unisinos.teoriainformacao.compressao.file.Message;
+import unisinos.teoriainformacao.compressao.file.Message;
+
+import java.util.List;
 
 public interface Encoder {
-    byte[] encode(Message message);
+    String encodeAsString(Message message);
+    List<Boolean> encodeBool(Message message);
 
-    EncoderEnum getEncoder();
+    EncoderEnum getEncoderDecoder();
 }

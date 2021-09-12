@@ -1,9 +1,10 @@
-package java.unisinos.teoriainformacao.compressao.file;
+package unisinos.teoriainformacao.compressao.file;
 
-import java.util.Optional;
+import java.util.List;
 
 public class FileReader {
-    public static Optional<String> readFile() {
-        return Optional.of("14teste123");
+    //Retorna uma linha por posição do arquivo
+    public static List<String> readFile() {
+        return List.of("18Teste");
     }
 }

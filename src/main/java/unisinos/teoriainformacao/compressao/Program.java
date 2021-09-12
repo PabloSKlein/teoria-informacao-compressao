@@ -1,21 +1,26 @@
-package java.unisinos.teoriainformacao.compressao;
+package unisinos.teoriainformacao.compressao;
 
-import java.unisinos.teoriainformacao.compressao.file.Message;
-import java.unisinos.teoriainformacao.compressao.strategy.EncoderStrategy;
+import unisinos.teoriainformacao.compressao.file.FileWriter;
+import unisinos.teoriainformacao.compressao.file.Message;
+import unisinos.teoriainformacao.compressao.strategy.EncoderStrategy;
+
+import java.util.List;
 import java.util.Optional;
 
-import static java.unisinos.teoriainformacao.compressao.file.FileReader.readFile;
+import static unisinos.teoriainformacao.compressao.file.FileReader.readFile;
 
 public class Program {
     public static void main(String[] args) {
-        readFile()
-                .flatMap(Message::buildMessage)
-                .flatMap(Program::encodeByStrategy)
-                .orElseThrow(() -> new RuntimeException("Parâmtros inválidos"));
+        readFile().stream()
+                .map(Message::buildMessage)
+                .flatMap(Optional::stream)
+                .map(Program::encodeByStrategy)
+                .flatMap(Optional::stream)
+                .forEach(FileWriter::writeLine);
     }
 
-    private static Optional<byte[]> encodeByStrategy(Message message) {
+    private static Optional<String> encodeByStrategy(Message message) {
         return EncoderStrategy.getEncoder(message.getEncoderKey())
-                .map(encoder -> encoder.encode(message));
+                .map(encoder -> encoder.encodeAsString(message));
     }
 }

@@ -1,4 +1,4 @@
-package java.unisinos.teoriainformacao.compressao.strategy;
+package unisinos.teoriainformacao.compressao.strategy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ public class EncoderStrategy {
 
     public static Optional<Encoder> getEncoder(int encoderKey) {
         return getEncodersStrategy().stream()
-                .filter(encoder -> encoder.getEncoder().key == encoderKey)
+                .filter(encoder -> encoder.getEncoderDecoder().key == encoderKey)
                 .findAny();
     }
 }

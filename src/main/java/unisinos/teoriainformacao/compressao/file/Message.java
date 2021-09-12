@@ -1,8 +1,15 @@
-package java.unisinos.teoriainformacao.compressao.file;
+package unisinos.teoriainformacao.compressao.file;
 
-import java.unisinos.teoriainformacao.compressao.strategy.EncoderEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import unisinos.teoriainformacao.compressao.strategy.EncoderEnum;
+
 import java.util.Optional;
 
+@Getter
+@Builder
+@AllArgsConstructor
 public class Message {
     public static final int ENCODER_INDEX = 0;
     public static final int PARAM_INDEX = 1;
@@ -25,25 +32,8 @@ public class Message {
                 parseCharToInt(text, PARAM_INDEX), parseCharToInt(text, ENCODER_INDEX)));
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public int getParam() {
-        return param;
-    }
-
-    public EncoderEnum getEncoder() {
-        return encoderEnum;
-    }
-
-    public int getEncoderKey() {
-        return encoderKey;
-    }
-
     private static int parseCharToInt(String text, int index) {
         return Character.getNumericValue(text.charAt(index));
     }
-
 
 }
