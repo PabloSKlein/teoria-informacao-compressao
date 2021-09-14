@@ -10,6 +10,17 @@ public class BinaryUtil {
                 .toArray(Byte[]::new);
     }
 
+    public static byte[] getBinaryFormated(int intValue, int degree) {
+        var formatedBytes = new byte[degree];
+        var binaryBytes = toBinaryCharArray(intValue);
+
+        for (int i = 0; i < binaryBytes.length; i++) {
+            formatedBytes[formatedBytes.length - (i + 1)] = binaryBytes[binaryBytes.length - (i + 1)];
+        }
+
+        return formatedBytes;
+    }
+
     public static String parseToString(byte[] bytes) {
         return primitiveArrayToObjectStream(bytes)
                 .map(String::valueOf)
