@@ -30,7 +30,7 @@ public class Golomb implements Encoder, Decoder {
 
     @Override
     public String decode(Message message) {
-        var binaryWord = primitiveArrayToObjectStream(message.getText().getBytes(US_ASCII))
+        var binaryWord = primitiveArrayToObjectStream(getChars(message.getText()))
                 .map(this::mapToBinaryString)
                 .collect(joining());
 
@@ -46,13 +46,19 @@ public class Golomb implements Encoder, Decoder {
                 decodedWord.append((char) ((numberOfZeros * message.getParam()) + modValue));
 
                 numberOfZeros = 0;
-                i = i + modSize;
+                i = i + modSize + 1;
             }
 
             numberOfZeros++;
         }
 
         return decodedWord.toString();
+    }
+
+    private char[] getChars(String text) {
+        char[] chars = new char[text.length()];
+        text.getChars(0, text.length(), chars, 0);
+        return chars;
     }
 
     @Override
@@ -64,9 +70,7 @@ public class Golomb implements Encoder, Decoder {
         return parseToString(getBinaryFormated(intToDecode, BYTE_SIZE));
     }
 
-
     private String montaByte(String bits) {
-        //TODO aqui deu ruim
         return String.valueOf((char) Integer.parseInt(bits, 2));
     }
 
