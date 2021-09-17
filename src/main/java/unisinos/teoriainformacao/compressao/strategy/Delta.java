@@ -25,9 +25,9 @@ public class Delta implements Encoder, Decoder {
     private String encoded = "";
 
     @Override
-    public String encodeAsString(Message message) {
+    public String encode(Message message) {
         return splitBytes(primitiveArrayToObjectStream(message.getText().getBytes(US_ASCII))
-                .map(it -> encodeAsString(it))
+                .map(this::encodeAsString)
                 .collect(joining())).stream()
                 .map(this::montaByte)
                 .collect(joining());
@@ -47,11 +47,6 @@ public class Delta implements Encoder, Decoder {
         }
 
         return bytes;
-    }
-
-    @Override
-    public List<Boolean> encodeBool(Message message) {
-        return null;
     }
 
     @Override
