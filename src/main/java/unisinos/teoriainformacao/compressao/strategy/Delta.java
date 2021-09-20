@@ -3,17 +3,16 @@ package unisinos.teoriainformacao.compressao.strategy;
 import unisinos.teoriainformacao.compressao.file.Message;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.Math.min;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.util.stream.Collectors.joining;
 import static unisinos.teoriainformacao.compressao.strategy.EncoderEnum.DELTA;
+import static unisinos.teoriainformacao.compressao.util.Constants.BYTE_SIZE;
 import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
 
 public class Delta implements Encoder, Decoder {
 
-    private static final byte BYTE_SIZE = 8;
     private static final String DELTA_CHANGED = "1";
     private static final String DELTA_NOT_CHANGED = "0";
     private static final String DELTA_POSITIVE = "0";
@@ -58,19 +57,19 @@ public class Delta implements Encoder, Decoder {
         var encoded_string = "";
 
         //Se é o primeiro byte, precisa pegar o binário dele
-        if(first_byte){
+        if (first_byte) {
             encoded_string = Integer.toBinaryString(toEncode.intValue());
             first_byte = false;
         }
         //Senão
-        else{
+        else {
             //Deve-se avaliar se é igual ao último byte avaliado
-            if(toEncode.equals(last_byte)){
+            if (toEncode.equals(last_byte)) {
                 // Caso seja, apenas insere bit de controle
                 encoded_string = DELTA_NOT_CHANGED;
             }
             // Senão
-            else{
+            else {
                 //Calcula a diferença do último para o atual
                 int diff = (toEncode.intValue()) - (last_byte.intValue());
 
@@ -79,9 +78,9 @@ public class Delta implements Encoder, Decoder {
                 var diff_string = String.format("%8s", Integer.toBinaryString(Math.abs(diff))).replaceAll(" ", "0");
 
                 //Haverá um bit antes indicando se é positivo (0) ou negativo (1)
-                if(diff > 0){
+                if (diff > 0) {
                     diff_string = DELTA_POSITIVE + diff_string;
-                }else{
+                } else {
                     diff_string = DELTA_NEGATIVE + diff_string;
                 }
 

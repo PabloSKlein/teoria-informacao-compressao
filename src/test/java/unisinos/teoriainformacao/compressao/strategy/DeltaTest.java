@@ -11,7 +11,7 @@ public class DeltaTest {
 
     @Test
     public void encodeAsStringSuccess() {
-        assertEquals("", delta.encodeAsString(build("ADDA", 0)));
+        assertEquals("", delta.encode(build("ADDA", 0)));
     }
 
 }

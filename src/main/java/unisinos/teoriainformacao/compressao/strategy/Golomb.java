@@ -10,14 +10,11 @@ import static java.util.stream.Collectors.joining;
 import static unisinos.teoriainformacao.compressao.strategy.EncoderEnum.GOLOMB;
 import static unisinos.teoriainformacao.compressao.util.BinaryUtil.getBinaryFormated;
 import static unisinos.teoriainformacao.compressao.util.BinaryUtil.parseToString;
+import static unisinos.teoriainformacao.compressao.util.Constants.*;
 import static unisinos.teoriainformacao.compressao.util.MathUtil.log2;
 import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
 
 public class Golomb implements Encoder, Decoder {
-
-    private static final byte BIT_STOP = 1;
-    private static final char BIT_STOP_CHAR = '1';
-    private static final byte BYTE_SIZE = 8;
 
     @Override
     public String encode(Message message) {
