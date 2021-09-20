@@ -37,16 +37,16 @@ public class Unary implements Encoder, Decoder {
         var decodedWord = new StringBuilder();
         var numberOfZeros = 0;
 
-        var charAnterior = binaryWord.charAt(0);
+        var lastChar = binaryWord.charAt(0);
 
         for (int i = 0; i < binaryWord.length(); i++) {
-            var charAtual = binaryWord.charAt(i);
+            var currentChar = binaryWord.charAt(i);
 
-            if (charAtual != charAnterior) {
+            if (currentChar != lastChar) {
                 decodedWord.append((char) ((numberOfZeros)));
 
                 numberOfZeros = 0;
-                charAnterior = charAtual;
+                lastChar = currentChar;
             }
 
             numberOfZeros++;
