@@ -19,7 +19,8 @@ public class Delta implements Encoder, Decoder {
     private static final String DELTA_POSITIVE = "0";
     private static final String DELTA_NEGATIVE = "1";
     private static final byte DELTA_SIZE = 8;
-    private boolean first_byte = true;
+    private boolean first_byte_encode = true;
+    private boolean first_byte_decode = true;
     private Byte last_byte;
 
     private String encoded = "";
@@ -63,9 +64,9 @@ public class Delta implements Encoder, Decoder {
         var encoded_string = "";
 
         //Se é o primeiro byte, precisa pegar o binário dele
-        if(first_byte){
+        if(first_byte_encode){
             encoded_string = String.format("%8s", Integer.toBinaryString(toEncode.intValue())).replaceAll(" ", "0");
-            first_byte = false;
+            first_byte_encode = false;
         }
         //Senão
         else{
@@ -106,6 +107,16 @@ public class Delta implements Encoder, Decoder {
 
     @Override
     public String decode(Message message) {
+        //Minha principal dúvida aqui é como ir consumindo X bits por vez
+            //Ex.: primeiro deve-se ler 8 bits, depois 1 bit para ver se manteve (delta) ou não e daí decidir se vai ler +1 ou +9 (1 sinal 8 degrau)
+
+        //Se é o primeiro byte, precisa converter para o binário dele
+            //Método de byte para ASCII?
+
+        //Senão, deve-se avaliar se é igual ao último byte avaliado DELTA_NOT_CHANGED
+            // Caso seja repete última string
+
+            // Senão pega os 8 bits para ver qual o tamanho do degrau, faz a diferença do último ASCII com o degrau e exibe a string sendo que na diferença temos DELTA_POSITIVE/DELTA_NEGATIVE
         return null;
     }
 }
