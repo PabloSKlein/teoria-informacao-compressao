@@ -64,7 +64,7 @@ public class Delta implements Encoder, Decoder {
 
         //Se é o primeiro byte, precisa pegar o binário dele
         if(first_byte){
-            encoded_string = Integer.toBinaryString(toEncode.intValue());
+            encoded_string = String.format("%8s", Integer.toBinaryString(toEncode.intValue())).replaceAll(" ", "0");
             first_byte = false;
         }
         //Senão
