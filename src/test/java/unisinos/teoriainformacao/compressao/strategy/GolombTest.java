@@ -11,6 +11,11 @@ public class GolombTest {
 
     @Test
     public void encodeAsStringSuccess() {
-        assertEquals("", golomb.encodeAsString(build("+-*", 4)));
+        assertEquals(" 8  \u0005", golomb.encode(build("1+0", 4)));
+    }
+
+    @Test
+    public void decodeAsStringSuccess() {
+        assertEquals("+-*", golomb.decode(build(golomb.encode(build("+-*", 4)), 4)));
     }
 }

@@ -3,24 +3,21 @@ package unisinos.teoriainformacao.compressao.strategy;
 import unisinos.teoriainformacao.compressao.file.Message;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.Math.min;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.util.stream.Collectors.joining;
 import static unisinos.teoriainformacao.compressao.strategy.EncoderEnum.GOLOMB;
+import static unisinos.teoriainformacao.compressao.util.BinaryUtil.getBinaryFormated;
 import static unisinos.teoriainformacao.compressao.util.BinaryUtil.parseToString;
-import static unisinos.teoriainformacao.compressao.util.BinaryUtil.toBinaryCharArray;
+import static unisinos.teoriainformacao.compressao.util.Constants.*;
 import static unisinos.teoriainformacao.compressao.util.MathUtil.log2;
 import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
 
 public class Golomb implements Encoder, Decoder {
 
-    private static final byte BIT_STOP = 1;
-    private static final byte BYTE_SIZE = 8;
-
     @Override
-    public String encodeAsString(Message message) {
+    public String encode(Message message) {
         return splitBytes(primitiveArrayToObjectStream(message.getText().getBytes(US_ASCII))
                 .map(it -> encodeAsString(it, message.getParam()))
                 .collect(joining())).stream()
@@ -28,9 +25,50 @@ public class Golomb implements Encoder, Decoder {
                 .collect(joining());
     }
 
+    @Override
+    public String decode(Message message) {
+        var binaryWord = primitiveArrayToObjectStream(getChars(message.getText()))
+                .map(this::mapToBinaryString)
+                .collect(joining());
+
+        int modSize = log2(message.getParam());
+        var decodedWord = new StringBuilder();
+        var numberOfZeros = 0;
+
+        for (int i = 0; i < binaryWord.length(); i++) {
+            if (binaryWord.charAt(i) == BIT_STOP_CHAR) {
+                var binaryMod = binaryWord.substring(i + 1, i + modSize + 1);
+                int modValue = Integer.parseInt(binaryMod, 2);
+
+                decodedWord.append((char) ((numberOfZeros * message.getParam()) + modValue));
+
+                numberOfZeros = 0;
+                i = i + modSize + 1;
+            }
+
+            numberOfZeros++;
+        }
+
+        return decodedWord.toString();
+    }
+
+    private char[] getChars(String text) {
+        char[] chars = new char[text.length()];
+        text.getChars(0, text.length(), chars, 0);
+        return chars;
+    }
+
+    @Override
+    public EncoderEnum getEncoderDecoder() {
+        return GOLOMB;
+    }
+
+    private String mapToBinaryString(int intToDecode) {
+        return parseToString(getBinaryFormated(intToDecode, BYTE_SIZE));
+    }
+
     private String montaByte(String bits) {
-        int charCode = Integer.parseInt(bits, 2);
-        return Character.toString((char) charCode);
+        return String.valueOf((char) Integer.parseInt(bits, 2));
     }
 
     private ArrayList<String> splitBytes(String toSplit) {
@@ -44,15 +82,6 @@ public class Golomb implements Encoder, Decoder {
         return bytes;
     }
 
-    @Override
-    public List<Boolean> encodeBool(Message message) {
-        return null;
-    }
-
-    @Override
-    public EncoderEnum getEncoderDecoder() {
-        return GOLOMB;
-    }
 
     private String encodeAsString(Byte toEncode, int divisor) {
         var prefix = parseToString(getPrefix(toEncode, divisor));
@@ -61,17 +90,9 @@ public class Golomb implements Encoder, Decoder {
     }
 
     private byte[] getBinaryMod(Byte toEncode, int divisor) {
-        int modSize = log2(divisor);//Aqui ta errado
-        var formatedBytes = new byte[modSize];
-        var binaryModBytes = toBinaryCharArray(toEncode.intValue() % divisor);
+        int modSize = log2(divisor);
 
-        //TODO verificar se não é melhor só ir botando zero na frente
-
-        for (int i = 0; i < binaryModBytes.length; i++) {
-            formatedBytes[formatedBytes.length - (i + 1)] = binaryModBytes[i];
-        }
-
-        return formatedBytes;
+        return getBinaryFormated(toEncode.intValue() % divisor, modSize);
     }
 
     private byte[] getPrefix(Byte toEncode, int divisor) {
@@ -81,10 +102,5 @@ public class Golomb implements Encoder, Decoder {
         bytes[bytes.length - 1] = BIT_STOP;
 
         return bytes;
-    }
-
-    @Override
-    public String decode(Message message) {
-        return null;
     }
 }

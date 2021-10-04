@@ -4,7 +4,6 @@ import unisinos.teoriainformacao.compressao.file.FileWriter;
 import unisinos.teoriainformacao.compressao.file.Message;
 import unisinos.teoriainformacao.compressao.strategy.EncoderStrategy;
 
-import java.util.List;
 import java.util.Optional;
 
 import static unisinos.teoriainformacao.compressao.file.FileReader.readFile;
@@ -21,6 +20,6 @@ public class Program {
 
     private static Optional<String> encodeByStrategy(Message message) {
         return EncoderStrategy.getEncoder(message.getEncoderKey())
-                .map(encoder -> encoder.encodeAsString(message));
+                .map(encoder -> encoder.encode(message));
     }
 }
