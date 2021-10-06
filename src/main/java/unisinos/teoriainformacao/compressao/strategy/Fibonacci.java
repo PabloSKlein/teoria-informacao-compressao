@@ -25,23 +25,18 @@ public class Fibonacci implements Encoder, Decoder {
         return decode(binaryWord);
     }
 
-    private String decode(String entrada)
-    {
+    private String decode(String entrada) {
         var codewordsIdentificados = new ArrayList<String>();
         var codeword = String.valueOf(entrada.charAt(0));
 
-        for (int i = 1; i < entrada.length(); i++)
-        {
+        for (int i = 1; i < entrada.length(); i++) {
             var atual = entrada.charAt(i);
             var anterior = entrada.charAt(i - 1);
 
-            if (atual == '1' && anterior == '1' && codeword.length() > 0)
-            {
+            if (atual == '1' && anterior == '1' && codeword.length() > 0) {
                 codewordsIdentificados.add(codeword);
                 codeword = "";
-            }
-            else
-            {
+            } else {
                 codeword += atual;
             }
         }
@@ -51,32 +46,28 @@ public class Fibonacci implements Encoder, Decoder {
 
         var caracteresAscii = new StringBuilder();
 
-        for (var codeword1 : codewordsIdentificados)
-        {
+        for (var codeword1 : codewordsIdentificados) {
             var listaFibonacci = fibonacciAte(255);
             var soma = 0;
 
-            for (int i = 0; i < codeword1.length(); i++)
-            {
+            for (int i = 0; i < codeword1.length(); i++) {
                 if (codeword1.charAt(i) == '1')
                     soma += listaFibonacci.get(i);
             }
 
-            caracteresAscii.append((char)soma);
+            caracteresAscii.append((char) soma);
         }
 
         return caracteresAscii.toString();
     }
 
-    private static List<Integer> fibonacciAte(int maximo)
-    {
+    private static List<Integer> fibonacciAte(int maximo) {
         var retorno = new ArrayList<Integer>();
         int termo1 = 1, termo2 = 2, calculado = 0;
         retorno.add(termo1);
         retorno.add(termo2);
 
-        for (int i = 2; calculado < maximo; i++)
-        {
+        for (int i = 2; calculado < maximo; i++) {
             calculado = termo1 + termo2;
             retorno.add(calculado);
             termo1 = termo2;
@@ -168,7 +159,7 @@ public class Fibonacci implements Encoder, Decoder {
         var bytes = new ArrayList<String>();
         for (int i = 0; i < toSplit.length(); i = i + BYTE_SIZE) {
             var splitEnd = min(i + BYTE_SIZE, toSplit.length());
-            var bits = toSplit.substring(i, splitEnd);
+            var bits = String.format("%-8s", toSplit.substring(i, splitEnd)).replaceAll(" ", "0");
             bytes.add(bits);
         }
 
