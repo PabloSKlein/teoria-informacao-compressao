@@ -1,6 +1,5 @@
 package unisinos.teoriainformacao.compressao.strategy;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static unisinos.teoriainformacao.compressao.util.PrimitiveUtil.primitiveArrayToObjectStream;
@@ -15,7 +14,12 @@ public class Hamming implements ErrorHandler {
     public String addErrorValidationBits(String bitsToEncode) {
         var encodedStringBuilder = new StringBuilder();
         for (int i = 0; i < bitsToEncode.length(); i = i + NUMBER_OF_BITS_TO_ENCODE) {
-            encodedStringBuilder.append(defineNewBits(bitsToEncode.substring(i, i + NUMBER_OF_BITS_TO_ENCODE)));
+            var indiceFinal = i + NUMBER_OF_BITS_TO_ENCODE;
+            if (indiceFinal > bitsToEncode.length()) {
+                encodedStringBuilder.append(bitsToEncode.substring(i));
+            } else {
+                encodedStringBuilder.append(defineNewBits(bitsToEncode.substring(i, i + NUMBER_OF_BITS_TO_ENCODE)));
+            }
         }
         return encodedStringBuilder.toString();
     }
@@ -28,7 +32,7 @@ public class Hamming implements ErrorHandler {
             var recivedHammingBits = bitsToValid.substring(i + NUMBER_OF_BITS_TO_ENCODE, i + NUMBER_OF_BITS_AFTER_ENCODE);
             var calculatedHammingBits = defineNewBits(originalBits).substring(i + NUMBER_OF_BITS_TO_ENCODE);
 
-            if(!recivedHammingBits.equals(calculatedHammingBits)){
+            if (!recivedHammingBits.equals(calculatedHammingBits)) {
                 return tryToFixMessage(originalBits, recivedHammingBits, calculatedHammingBits);
             }
 
@@ -39,14 +43,14 @@ public class Hamming implements ErrorHandler {
 
     private String tryToFixMessage(String originalBits, String recivedHammingBits, String calculatedHammingBits) {
         var iondexesToFix = new StringBuilder();
-        for(int i = 0; i < recivedHammingBits.length(); i++){
+        for (int i = 0; i < recivedHammingBits.length(); i++) {
             iondexesToFix.append(recivedHammingBits.charAt(i) != calculatedHammingBits.charAt(i) ? "1" : "0");
         }
 
         int indexToFix = HammingFixEnum.findByPattern(iondexesToFix.toString()).getIndexToFix();
 
         var chars = originalBits.toCharArray();
-        if(indexToFix < 3){
+        if (indexToFix < 3) {
             chars[indexToFix] = flipValue(chars[indexToFix]);
         }
 

@@ -1,24 +1,18 @@
 package unisinos.teoriainformacao.compressao.file;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class FileReader {
     public static List<String> readFile() {
-        return List.of("14\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "                ALICE'S ADVENTURES IN WONDERLAND\n" +
-                "\n" +
-                "                          Lewis Carroll\n" +
-                "\n" +
-                "               THE MILLENNIUM FULCRUM EDITION 2.9\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "                            CHAPTER I\n" +
-                "\n" +
-                "                      Down the Rabbit-Hole");
+
+        try {
+            var encoded = Files.readAllBytes(Paths.get("./toEncodeFile.txt"));
+            return List.of(new String(encoded, StandardCharsets.UTF_8));
+        }catch (Exception e){
+            throw new RuntimeException("Erro ao ler arquivo", e);
+        }
     }
 }
