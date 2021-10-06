@@ -20,4 +20,10 @@ class FibonacciTest {
 
         assertEquals(resultadoEsperado, stringBits);
     }
+
+    public void testarDecode()
+    {
+        var resultado = fibonacciEncoder.decode(build("Teste de encoding", 0));
+
+    }
 }
