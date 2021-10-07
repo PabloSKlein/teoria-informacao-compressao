@@ -14,4 +14,9 @@ public class DeltaTest {
         assertEquals("", delta.encode(build("ADDA", 0)));
     }
 
+    @Test
+    public void decode() {
+        assertEquals("ADDA", delta.decode(build(delta.encode(build("ADDA", 4)), 4)));
+    }
+
 }
