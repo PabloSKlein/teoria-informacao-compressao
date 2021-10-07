@@ -17,7 +17,7 @@ public class Program {
                 .flatMap(Optional::stream)
                 .map(Program::encodeByStrategy)
                 .flatMap(Optional::stream)
-                .map(Program::addErrorValidation)
+               // .map(Program::addErrorValidation)
                 .forEach(FileWriter::writeLine);
     }
 

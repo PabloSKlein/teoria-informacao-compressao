@@ -128,7 +128,7 @@ public class Fibonacci implements Encoder, Decoder {
 
     @java.lang.Override
     public EncoderEnum getEncoderDecoder() {
-        return null;
+        return EncoderEnum.FIBONACCI;
     }
 
     private static List<Integer> calcularFibonacci(int limiteMaximo) {
