@@ -18,7 +18,7 @@ public enum EncoderEnum {
     FIBONACCI(3) {
         @Override
         public Encoder getEncoderInstance() {
-            return new Golomb();
+            return new Fibonacci();
         }
     },
     UNARY(4) {
@@ -30,7 +30,7 @@ public enum EncoderEnum {
     DELTA(5) {
         @Override
         public Encoder getEncoderInstance() {
-            return new Golomb();
+            return new Delta();
         }
     };
 
