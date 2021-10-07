@@ -21,6 +21,6 @@ Tecnologia: Java 16 (com Gradle).
 
 Não foi implementada a CLI para execução, portanto é necessário executar via ferramentas de debug (sugestão é usar o IntelliJ) ou recompilar e executar sempre que precisar alterar o arquivo a ser lido.
 
-O arquivo a ser lido é configurado no arquivo `FileReader.java`.
+O arquivo a ser lido é configurado no arquivo `FileReader.java` (o padrão é `toEncodeFile.txt` e a saída será um arquivo chamado `encodedFile.txt`).
 
 Os algoritmos para _encoding_/_decoding_ têm testes unitários para facilitar os testes/debug.
